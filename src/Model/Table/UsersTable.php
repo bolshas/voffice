@@ -8,17 +8,30 @@ class UsersTable extends Table
 {
 	public function initialize(array $config)
 	{
-		$this->addBehavior('Timestamp');
+		$this->addBehavior('Timestamp', [
+            'events' => [
+                'Model.beforeSave' => [
+                    'created' => 'new',
+                    'modified' => 'always',
+                ],
+                'Users.afterLogin' => [
+                    'lastLogin' => 'always'
+                ]
+            ]
+        ]);	
+        
+        $this->hasMany('Customers');
+		
 	}
 	
 	public function validationDefault(Validator $validator)
 	{
-		$validator->requirePresence('name')
+		$validator->requirePresence('name', 'create')
 		          ->notEmpty('name', 'Please provide your name.')
-		          ->requirePresence('email')
+		          ->requirePresence('email', 'create')
 		          ->add('email', 'validFormat', ['rule' => 'email', 'message' => 'Email must be valid.'])
 		          ->notEmpty('email', 'Please provide your email')
-	              ->requirePresence('password')
+	              ->requirePresence('password', 'create')
 		          ->notEmpty('password', 'Please provide your password');
 		return $validator;
 	}

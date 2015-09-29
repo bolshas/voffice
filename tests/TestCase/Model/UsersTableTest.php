@@ -12,51 +12,50 @@ class UsersTableTest extends TestCase
 	public function setUp() 
 	{
 		parent::setUp();
-		
-	}
-	
-	public function testValidationAcceptsCorrectData() 
-	{
-		$data = [
+		$this->Users = TableRegistry::get('Users');
+		$this->data = [
 			'name' => 'Pranas',
 			'email' => 'pranas@gmail.com',
 			'password' => 'ADAaaksdj23'
 		];
-		$newUser = TableRegistry::get('Users')->newEntity($data);
-		$query =  TableRegistry::get('Users')->save($newUser);
+	}
+	
+	public function testValidationAcceptsCorrectData() 
+	{
+		$newUser = $this->Users->newEntity($this->data);
+		$query =  $this->Users->save($newUser);
 		$this->assertInstanceOf('Cake\ORM\Entity', $query);
 	}
 	public function testValidationRejectsBadName() 
 	{
-		$data = [
-			'name' => '',
-			'email' => 'pranas@gmail.com',
-			'password' => 'ADAaaksdj23'
-		];
-		$newUser = TableRegistry::get('Users')->newEntity($data);
-		$query = TableRegistry::get('Users')->save($newUser);
+		$this->data['name'] = '';
+		$newUser = $this->Users->newEntity($this->data);
+		$query =  $this->Users->save($newUser);
 		$this->assertFalse($query);
 	}	
 	public function testValidationRejectsBadEmail() 
 	{
-		$data = [
-			'name' => 'Vardenis Pavardenis',
-			'email' => 'pranas@gmail',
-			'password' => 'ADAaaksdj23'
-		];
-		$newUser = TableRegistry::get('Users')->newEntity($data);
-		$query = TableRegistry::get('Users')->save($newUser);
+		$this->data['email'] = 'pranas@gmail';
+		$newUser = $this->Users->newEntity($this->data);
+		$query =  $this->Users->save($newUser);
 		$this->assertFalse($query);
 	}
 	public function testValidationRejectsBadPassword() 
 	{
-		$data = [
-			'name' => 'Vardenis Pavardenis',
-			'email' => 'pranas@gmail',
-			'password' => ''
-		];
-		$newUser = TableRegistry::get('Users')->newEntity($data);
-		$query = TableRegistry::get('Users')->save($newUser);
+		$this->data['password'] = '';
+		$newUser = $this->Users->newEntity($this->data);
+		$query =  $this->Users->save($newUser);
 		$this->assertFalse($query);
+	}
+	public function testPasswordHashing()
+	{
+		$newUser = $this->Users->newEntity($this->data);
+		$query = $this->Users->save($newUser);
+		$this->assertNotEquals($this->data['password'], $query->password);
+	}
+	public function tearDown()
+	{
+		parent::tearDown();
+		unset($this->Users, $this->data);
 	}
 }

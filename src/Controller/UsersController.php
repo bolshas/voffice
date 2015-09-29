@@ -4,24 +4,53 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
 use Cake\Network\Request;
+use Cake\Event\Event;
+use Cake\Datasource\Exception\RecordNotFoundException;
 
 class UsersController extends AppController
 {
+	public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['add']);
+    }
+    
 	public function index() 
 	{
-		$generator = \Faker\Factory::create();
-		$generator->addProvider(new \Faker\Provider\Internet($generator));
-
-		$populator = new \Faker\ORM\CakePHP\Populator($generator);
-		$populator->addEntity('Users', 1, [
-			'email' => function() use ($generator) { return $generator->unique()->email(); },
-			'name' => function() use ($generator) { return $generator->firstName() . " " . $generator->lastName(); },
-			'password' => function() use ($generator) { return $generator->password(); },
-			'created' => null,
-			'modified' => null
-		]);
-		$populator->execute();
 		$this->set('users', $this->paginate($this->Users));		
+	}
+	
+	public function view($id = null) 
+	{
+		if ($id) {
+			try {
+				$user = $this->Users->get($id);
+			} catch (RecordNotFoundException $ex) {
+				$this->Flash->error($ex->getMessage());
+				return $this->redirect(['action' => 'index']);
+			}
+			$this->set('user', $user);
+		}
+	}
+	
+	public function edit($id = null) 
+	{
+		if ($id) {
+			$user = $this->Users->get($id);
+			$this->set('user', $user);
+			if ($this->request->is('post')) {
+				$updatedData = array_filter($this->request->data); //remove empty fields from data.
+				$this->Users->patchEntity($user, $updatedData);
+				if($user->errors()) {
+					$this->set('errors', $user->errors());
+				}
+				if ($this->Users->save($user)) {
+					$this->Flash->success('User updated.');
+					return $this->redirect(['action' => 'index']);
+				}
+				$this->Flash->error('Unable to update the user.');
+			}
+		}
 	}
 	
 	public function add()
@@ -29,18 +58,46 @@ class UsersController extends AppController
 		if ($this->request->is('post')) {
 			$newUser = $this->Users->newEntity($this->request->data);
 			if ($newUser->errors()) { //model validation errors have occured.
-				$this->Flash->error('An error has occured while saving the user.');	
 				$this->set('errors', $newUser->errors());
 			}
 			if ($this->Users->save($newUser)) {
 				$this->Flash->success('User saved.');
 				return $this->redirect(['action' => 'index']);
 			}
-			//$this->Flash->error('An error has occured while saving the user.');
-			// return $this->redirect(['action' => 'index']);
-		} else {
-			$user = $this->Users->newEntity();
-			$this->set('user', $user);
+			$this->Flash->error('An error has occured while saving the user.');
+		} 
+	}
+	
+	public function delete($id = null)
+	{
+		if ($id) {
+			if ($this->Users->delete($this->Users->get($id))) {
+				$this->Flash->success('User has been deleted.');
+				return $this->redirect(['action' => 'index']);
+			}
+			$this->Flash->error('Unable to delete the user.');
+			return $this->redirect(['action' => 'index']);
 		}
+	}
+	
+	public function login() 
+	{
+		if ($this->request->is('post')) {
+			$user = $this->Auth->identify();
+			if ($user) {
+				$this->Auth->setUser($user);
+		        $entity = $this->Users->get($user['id']);
+		        $this->Users->touch($entity, 'Users.afterLogin');
+				if ($this->Users->save($entity)) {
+					return $this->redirect($this->Auth->redirectUrl());
+				}
+			}
+			$this->Flash->error('incorrect data');
+		}
+	}
+	
+	public function logout()
+	{
+		return $this->redirect($this->Auth->logout());
 	}
 }
