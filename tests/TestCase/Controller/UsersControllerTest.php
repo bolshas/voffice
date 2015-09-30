@@ -28,6 +28,8 @@ class UsersControllerTest extends IntegrationTestCase
 		];
 		
 		$this->users = TableRegistry::get('Users');
+		
+		$this->user = $this->users->get(1);
 	}
 	
 	public function testIndex() 
@@ -39,17 +41,18 @@ class UsersControllerTest extends IntegrationTestCase
 
 	public function testView() 
 	{
-		$this->post('/users/add', $this->data); //create a new user.
 		$this->get('/users/view/1');
 		$this->assertResponseOk();
-		$this->assertResponseContains($this->data['email']); // view shows the record of the user.
+		$this->assertResponseContains($this->user->email); // view shows the record of the user.
+		
+		$this->get('/users/view/123123'); //try an unexisting record.
+		$this->assertResponseCode(302); // reposnse should be an error
 	}
 	
 	public function testDelete()
 	{
-		$this->post('/users/add', $this->data); //create a new user.
 		$this->get('/users/delete/1'); // delete the user.
-		$query = $this->users->find()->where(['email' => $this->data['email']]); //try to find the user by email.
+		$query = $this->users->find()->where(['email' => $this->user->email]); //try to find the user by email.
         $this->assertEquals(0, $query->count());
 	}
 	
@@ -65,8 +68,6 @@ class UsersControllerTest extends IntegrationTestCase
 	
 	public function testEdit() 
 	{
-		$this->post('/users/add', $this->data); //create a new user.
-		
 		$this->data['email'] = 'newemail@gmail.com';
 		$this->data['name'] = 'New Name';
 		
@@ -83,14 +84,14 @@ class UsersControllerTest extends IntegrationTestCase
 	{
 		$this->get('/users/login');
 		$this->assertResponseOk();
-		$this->post('/users/add', $this->data); //create a new user.
-		$this->post('users/login', $this->data); //login with new user data.
+		$this->post('users/login', ['email' => $this->user->email, 'password' => 'Vlwrki28']); //login with new user data.
 		$this->assertResponseSuccess(); //the login has worked.
 		$this->assertRedirect('/'); //check if redirection works
-		$this->assertSession('pranas@gmail.com', 'Auth.User.email'); //check if the user has been logged in.
+		$this->assertSession($this->user->email, 'Auth.User.email'); //check if the user has been logged in.
 		
-		$user = $this->users->find('all')->where(['email' => $this->data['email']])->first(); //try to find the user by email.
-		$this->assertInstanceOf('Cake\I18n\Time', $user->lastLogin); //the logged in user should have a timestamp assigned.
+		$this->user = $this->users->get(1); //requery the user.
+		
+		$this->assertInstanceOf('Cake\I18n\Time', $this->user->lastLogin); //the logged in user should have a timestamp assigned.
 
 		$this->get('/users/logout'); //logo the new user out.
 		$this->data['password'] = 'wrong password'; //change the password to incorrect.

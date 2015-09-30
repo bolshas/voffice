@@ -181,7 +181,7 @@ Request::addDetector('tablet', function ($request) {
  */
 
 Plugin::load('Migrations');
-// Plugin::load('Gourmet/Faker');
+Plugin::load('Gourmet/Faker');
 
 
 // Only try to load DebugKit in development mode

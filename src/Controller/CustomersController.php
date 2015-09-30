@@ -24,12 +24,15 @@ class CustomersController extends AppController
 	public function view($id = null) 
 	{
 		if ($id) {
-			try {
-				$customer = $this->Customers->find('all')->contain(['Users'])->first();
-			} catch (RecordNotFoundException $ex) {
-				$this->Flash->error($ex->getMessage());
+			$customer = $this->Customers->find('all')
+			                            ->where(['Customers.id' => $id])
+			                            ->contain(['Users'])
+			                            ->first();
+			if (!$customer) {
+				$this->Flash->error('Customer ' . $id . ' was not found.');
 				return $this->redirect(['action' => 'index']);
 			}
+			
 			$this->set('customer', $customer);
 		}
 	}
