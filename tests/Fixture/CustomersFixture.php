@@ -1,9 +1,7 @@
 <?php
 namespace App\Test\Fixture;
 
-// use Cake\TestSuite\Fixture\TestFixture;
-
-use Gourmet\Faker\TestSuite\Fixture\TestFixture;
+use Cake\TestSuite\Fixture\TestFixture;
 
 class CustomersFixture extends TestFixture
 {

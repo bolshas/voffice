@@ -1,7 +1,7 @@
 <?php
 namespace App\Test\Fixture;
 
-use Gourmet\Faker\TestSuite\Fixture\TestFixture;
+use Cake\TestSuite\Fixture\TestFixture;
 
 class UsersFixture extends TestFixture
 {
@@ -21,11 +21,4 @@ class UsersFixture extends TestFixture
 			'modified' => '2015-08-23 11:45:17',
 		]
 	];
-	
-	public function init()
-	{
-		parent::init();
-		
-		$this->faker->seed(4563);
-	}
 }

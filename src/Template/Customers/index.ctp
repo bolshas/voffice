@@ -1,4 +1,4 @@
-<table border="1">
+<table class="table">
 	<tr>
 		<td><b>Name</b></td>
 		<td><b>Corporate Id</b></td>
@@ -32,6 +32,4 @@ foreach ($customers as $customer) {
 <?php
 echo $this->Html->link('Add customer', ['controller' => 'customers', 'action' => 'add']);
 echo "<br>";
-echo $this->Paginator->prev();
-echo $this->Paginator->counter();
-echo $this->Paginator->next();
+echo $this->Paginator->numbers(['prev' => true, 'next' => true]);

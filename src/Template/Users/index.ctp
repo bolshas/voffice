@@ -1,4 +1,4 @@
-<table border="1">
+<table class="table">
 	<tr>
 		<td><b>name</b></td>
 		<td><b>email</b></td>
@@ -24,6 +24,4 @@ foreach ($users as $user) {
 <?php
 echo $this->Html->link('Add user', ['controller' => 'Users', 'action' => 'add']);
 echo "<br>";
-echo $this->Paginator->prev();
-echo $this->Paginator->counter();
-echo $this->Paginator->next();
+echo $this->Paginator->numbers();
