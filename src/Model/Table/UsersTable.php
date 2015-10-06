@@ -21,7 +21,7 @@ class UsersTable extends Table
         ]);	
         
         $this->hasMany('Customers');
-		
+		$this->belongsToMany('Departments', ['joinTable' => 'departments_users']);
 	}
 	
 	public function validationDefault(Validator $validator)

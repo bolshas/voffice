@@ -36,10 +36,13 @@ class DepartmentsTable extends Table
             'className' => 'Departments',
             'foreignKey' => 'parent_id'
         ]);
+        
         $this->hasMany('ChildDepartments', [
             'className' => 'Departments',
             'foreignKey' => 'parent_id'
         ]);
+        
+		$this->belongsToMany('Users', ['joinTable' => 'departments_users']);
     }
 
     /**

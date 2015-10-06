@@ -18,6 +18,6 @@ class MeetingsTable extends Table
         ]);	
 
         $this->belongsToMany('Users', ['joinTable' => 'meetings_users']);
-        $this->belongsToMany('Customers' ,['joinTable' => 'meetings_customers']);
+        $this->belongsToMany('Customers', ['joinTable' => 'meetings_customers']);
 	}
 }
