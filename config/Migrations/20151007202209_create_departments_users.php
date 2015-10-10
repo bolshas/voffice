@@ -14,7 +14,8 @@ class CreateDepartmentsUsers extends AbstractMigration
     {
         $table = $this->table('departments_users');
         $table->addColumn('department_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
-              ->addColumn('user_id',    'integer', [ 'default' => null, 'limit' => 11, 'null' => false])
+              ->addColumn('user_id', 'integer', [ 'default' => null, 'limit' => 11, 'null' => false])
+              ->addColumn('title', 'string', ['default' => null, 'limit' => 255, 'null' => false])
               ->create();
     }
 }

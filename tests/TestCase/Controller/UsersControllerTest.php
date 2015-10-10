@@ -6,7 +6,7 @@ use Cake\ORM\TableRegistry;
 
 class UsersControllerTest extends IntegrationTestCase
 {
-	public $fixtures = ['app.users'];
+	public $fixtures = ['app.users', 'app.departments_users'];
 	
 	public function setUp()
 	{
@@ -36,7 +36,7 @@ class UsersControllerTest extends IntegrationTestCase
 	{
 		$this->get('/users');
 		$this->assertResponseOk();
-		$this->assertResponseContains('Add user');
+		$this->assertResponseContains($this->user->name);
 	}
 
 	public function testView() 
@@ -46,13 +46,13 @@ class UsersControllerTest extends IntegrationTestCase
 		$this->assertResponseContains($this->user->email); // view shows the record of the user.
 		
 		$this->get('/users/view/123123'); //try an unexisting record.
-		$this->assertResponseCode(302); // reposnse should be an error
+		$this->assertResponseCode(302); // response should be an error
 	}
 	
 	public function testDelete()
 	{
 		$this->get('/users/delete/1'); // delete the user.
-		$query = $this->users->find()->where(['email' => $this->user->email]); //try to find the user by email.
+		$query = $this->users->find()->where(['id' => 1]); //try to find the user by email.
         $this->assertEquals(0, $query->count());
 	}
 	

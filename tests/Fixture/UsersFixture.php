@@ -7,9 +7,6 @@ class UsersFixture extends TestFixture
 {
 	public $import = ['table' => 'users'];
 	
-	// public $number = 1;
-	// public $guessers = ['Faker\Guesser\Name'];
-	
 	public $records = [
 		[
 			'id' => 1,

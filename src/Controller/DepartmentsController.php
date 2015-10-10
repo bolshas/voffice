@@ -16,7 +16,11 @@ class DepartmentsController extends AppController
     
 	public function index() 
 	{
-		$this->set('departmentsList', $this->Departments->find('treeList', ['spacer' => '-']));
+		$children = $this->Departments->find('children', ['for' => 1])
+		                              ->find('threaded')
+		                              ->contain(['Users'])
+		                              ->toArray();
+		$this->set('children', $children);
 	}
 	
 	public function view($id = null) 
@@ -34,22 +38,23 @@ class DepartmentsController extends AppController
 	
 	public function edit($id = null) 
 	{
-		// if ($id) {
-		// 	$user = $this->Users->get($id);
-		// 	$this->set('user', $user);
-		// 	if ($this->request->is('post')) {
-		// 		$updatedData = array_filter($this->request->data); //remove empty fields from data.
-		// 		$this->Users->patchEntity($user, $updatedData);
-		// 		if($user->errors()) {
-		// 			$this->set('errors', $user->errors());
-		// 		}
-		// 		if ($this->Users->save($user)) {
-		// 			$this->Flash->success('User updated.');
-		// 			return $this->redirect(['action' => 'index']);
-		// 		}
-		// 		$this->Flash->error('Unable to update the user.');
-		// 	}
-		// }
+		if ($id) {
+			$departments = $this->Departments->find('treelist');
+			$department = $this->Departments->get($id);
+			$this->set('departments', $departments);
+			$this->set('department', $department);
+			if ($this->request->is('post')) {
+				$this->Departments->patchEntity($department, $this->request->data);
+				if($department->errors()) {
+					$this->set('errors', $department->errors());
+				}
+				if ($this->Departments->save($department)) {
+					$this->Flash->success('Department updated.');
+					return $this->redirect(['action' => 'index']);
+				}
+				$this->Flash->error('Unable to update the department.');
+			}
+		}
 	}
 	
 	public function add()
@@ -72,13 +77,13 @@ class DepartmentsController extends AppController
 	
 	public function delete($id = null)
 	{
-		// if ($id) {
-		// 	if ($this->Users->delete($this->Users->get($id))) {
-		// 		$this->Flash->success('User has been deleted.');
-		// 		return $this->redirect(['action' => 'index']);
-		// 	}
-		// 	$this->Flash->error('Unable to delete the user.');
-		// 	return $this->redirect(['action' => 'index']);
-		// }
+		if ($id) {
+			if ($this->Departments->delete($this->Departments->get($id))) {
+				$this->Flash->success('Department has been deleted.');
+				return $this->redirect(['action' => 'index']);
+			}
+			$this->Flash->error('Unable to delete the department.');
+			return $this->redirect(['action' => 'index']);
+		}
 	}
 }

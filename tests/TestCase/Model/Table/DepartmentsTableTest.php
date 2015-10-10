@@ -13,12 +13,6 @@ class DepartmentsTableTest extends TestCase
     {
         parent::setUp();
         $this->Departments = TableRegistry::get('Departments');
-        
-        $this->Departments->save($this->Departments->newEntity(['name' => 'root']));
-        $this->Departments->save($this->Departments->newEntity(['name' => 'corporate', 'parent_id' => 1]));
-        $this->Departments->save($this->Departments->newEntity(['name' => 'leasing', 'parent_id' => 2]));
-        $this->Departments->save($this->Departments->newEntity(['name' => 'cards', 'parent_id' => 1]));
-        $this->Departments->save($this->Departments->newEntity(['name' => 'corporate', 'parent_id' => 4]));
     }
 
     public function tearDown()
@@ -37,6 +31,6 @@ class DepartmentsTableTest extends TestCase
     public function testTreeList()
     {
     	$list = $this->Departments->find('treeList', ['spacer' => '-']);
-		$this->assertContains('--corporate', $list);
+		$this->assertContains('--Cards', $list);
     }
 }
