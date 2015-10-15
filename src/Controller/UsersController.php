@@ -82,12 +82,13 @@ class UsersController extends AppController
 	
 	public function login() 
 	{
+		$this->viewBuilder()->layout('login');
 		if ($this->request->is('post')) {
 			$user = $this->Auth->identify();
 			if ($user) {
 				$this->Auth->setUser($user);
 		        $entity = $this->Users->get($user['id']);
-		        $this->Users->touch($entity, 'Users.afterLogin');
+		        $this->Users->touch($entity, 'Users.afterLogin'); // Update login timestamp (in entity)
 				if ($this->Users->save($entity)) {
 					return $this->redirect($this->Auth->redirectUrl());
 				}

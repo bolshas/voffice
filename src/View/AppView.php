@@ -37,5 +37,8 @@ class AppView extends View
     	$this->loadHelper('Form', ['className' => 'BootstrapUI.Form']);
 	  	$this->loadHelper('Flash', ['className' => 'BootstrapUI.Flash']);
 		$this->loadHelper('Paginator', ['className' => 'BootstrapUI.Paginator']);
+		
+		$this->Html->addCrumb('Home', '/');
+		$this->Html->addCrumb($this->request->params['controller'], ['controller' => $this->request->params['controller'], 'action' => 'index']);
     }
 }
