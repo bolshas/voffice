@@ -26,7 +26,7 @@
 	    
 	</head>
 	
-	<body class="hold-transition skin-blue sidebar-mini">
+	<body class="fixed skin-blue sidebar-mini">
 		<div class="wrapper">
 		 	<!-- Main Admin LTE Header -->
 			<header class="main-header">
@@ -52,7 +52,7 @@
 								<!-- Menu toggle button -->
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 									<i class="fa fa-envelope-o"></i>
-									<span class="label label-success">4</span>
+									<span class="label label-danger">4</span>
 								</a>
 								<ul class="dropdown-menu">
 									<li class="header">You have 4 messages</li>
@@ -79,6 +79,50 @@
 									<li class="footer"><a href="#">See All Messages</a></li>
 								</ul>
 							</li><!-- /.messages-menu -->
+							
+							<!-- User Account: style can be found in dropdown.less -->
+							<li class="dropdown user user-menu">
+                				<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+	                  				<img src="https://avatars3.githubusercontent.com/u/796840?v=3&s=140" class="user-image" alt="User Image">
+	                  				<span class="hidden-xs"><?= $this->request->Session()->read('Auth.User.name') ?></span>
+            					</a>
+                				<ul class="dropdown-menu">
+                  					<!-- User image -->
+                  					<li class="user-header">
+                    					<img src="https://avatars3.githubusercontent.com/u/796840?v=3&s=140" class="img-circle" alt="User Image">
+                    					<p>
+                      						<?= $this->request->Session()->read('Auth.User.name') ?> - Web Developer
+                      						<small>Member since <?= $this->request->Session()->read('Auth.User.created')->i18nFormat('YYYY MMMM dd'); ?></small>
+                    					</p>
+                  					</li>
+                  					<!-- Menu Body -->
+                  					<li class="user-body">
+                    					<div class="row">
+                      						<div class="col-xs-4 text-center">
+                        						<a href="#">Followers</a>
+                      						</div>
+	                      					<div class="col-xs-4 text-center">
+	                        					<a href="#">Sales</a>
+	                      					</div>
+	                  						<div class="col-xs-4 text-center">
+	                        					<a href="#">Friends</a>
+	                      					</div>
+                    					</div><!-- /.row -->
+                  					</li>
+                  					<!-- Menu Footer-->
+                  					<li class="user-footer">
+                    					<div class="pull-left">
+                    						<?= $this->Html->link('Profile', 
+                    												['controller' => 'users', 'action' => 'view', $this->request->Session()->read('Auth.User.id')],
+                    												['class' => 'btn btn-default btn-flat']) ?>
+                    					</div>
+                    					<div class="pull-right">
+                      						<a href="/users/logout" class="btn btn-default btn-flat">Sign out</a>
+                    					</div>
+                  					</li>
+            					</ul>
+          					</li>
+          					
 							<li>
 								<a href="#" data-toggle="control-sidebar">
 									<i class="fa fa-gears"></i>
@@ -120,10 +164,13 @@
 
 					<!-- Sidebar Menu -->
 					<ul class="sidebar-menu">
-						<li class="header">HEADER</li>
+						<li class="header">TASKS</li>
 						<!-- Optionally, you can add icons to the links -->
-						<li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-						<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+						<li class="<?= $this->request->controller === 'Users' ? 'active' : '' ?>"><a href="/users"><i class="fa fa-users"></i> <span>Users</span></a></li>
+						<li class="<?= $this->request->controller === 'Customers' ? 'active' : '' ?>"><a href="/customers"><i class="fa fa-industry"></i> <span>Customers</span></a></li>
+						<li class="<?= $this->request->controller === 'Meetings' ? 'active' : '' ?>"><a href="/meetings"><i class="fa fa-car"></i> <span>Meetings</span></a></li>
+						<li class="<?= $this->request->controller === 'Departments' ? 'active' : '' ?>"><a href="/departments"><i class="fa fa-bank"></i> <span>Departments</span></a></li>
+						<!--
 						<li class="treeview">
 							<a href="#"><i class="fa fa-link"></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
 							<ul class="treeview-menu">
@@ -131,6 +178,7 @@
 								<li><a href="#">Link in level 2</a></li>
 							</ul>
 						</li>
+						-->
 					</ul><!-- /.sidebar-menu -->
 				</section>
 				<!-- /.sidebar -->

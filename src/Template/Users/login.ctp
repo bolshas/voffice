@@ -3,6 +3,7 @@ echo $this->Html->css('/plugins/iCheck/square/blue.css', ['block' => true]);
 echo $this->Html->script('/plugins/iCheck/icheck.min.js', ['block' => true]);
 echo $this->Html->scriptBlock("
 	$(function () {
+		$('#email').focus();
         $('input').iCheck({
           checkboxClass: 'icheckbox_square-blue',
           radioClass: 'iradio_square-blue',
@@ -30,11 +31,11 @@ $this->Form->templates([
 		
 		<div class="form-group has-feedback">
 			<?= $this->Form->input('email', ['label' => false, 'placeholder' => 'Email']); ?>
-			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+			<span class="fa fa-user form-control-feedback"></span>
 		</div>
 		<div class="form-group has-feedback">
 			<?= $this->Form->input('password', ['label' => false, 'placeholder' => 'Password']); ?>
-			<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+			<span class="fa fa-lock form-control-feedback"></span>
 		</div>
 			
 		<div class="row">

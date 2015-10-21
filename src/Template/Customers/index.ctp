@@ -18,7 +18,9 @@ foreach ($customers as $customer) {
 	echo "<td>$customer->address</td>";
 	echo "<td>$customer->phoneNumber</td>";
 	echo "<td>$customer->email</td>";
-	echo "<td>" . $this->Html->link($customer->user->name, ['controller' => 'users', 'action' => 'view', $customer->user->id]) . "</td>";
+	echo "<td>"; 
+	echo $customer->user ? $this->Html->link($customer->user->name, ['controller' => 'users', 'action' => 'view', $customer->user->id]) : '';
+	echo "</td>";
 	echo "<td>$customer->created</td>";
 	echo "<td>$customer->modified</td>";
 	echo "<td>" . $this->Html->link('view', ['action' => 'view', $customer->id]) . "</td>";

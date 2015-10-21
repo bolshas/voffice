@@ -24,12 +24,14 @@ class UsersController extends AppController
 	{
 		if ($id) {
 			try {
-				$user = $this->Users->get($id);
+				$user = $this->Users->get($id, ['contain' => 'Meetings']);
 			} catch (RecordNotFoundException $ex) {
 				$this->Flash->error($ex->getMessage());
 				return $this->redirect(['action' => 'index']);
 			}
+			$test = $this->Users->find('all')->where(['id' => $user->id])->contain(['Meetings', 'Customers']);
 			$this->set('user', $user);
+			$this->set('test', $test);
 		}
 	}
 	
