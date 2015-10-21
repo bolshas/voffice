@@ -45,7 +45,7 @@ $this->Html->addCrumb($user->name);
 			</div>
 			<div class="box-body">
 				<?php
-				pr ($test->toArray()[0]->meetings[0]->toArray());
+				// pr ($test->toArray()[0]->meetings[0]->toArray());
 				foreach ($user->meetings as $meeting) {
 					echo $meeting->title;
 					echo "<hr>";

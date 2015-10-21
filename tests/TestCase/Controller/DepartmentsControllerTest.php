@@ -3,6 +3,7 @@ namespace App\Test\TestCase\Controller;
 
 use Cake\TestSuite\IntegrationTestCase;
 use Cake\ORM\TableRegistry;
+use Cake\I18n\Time;
 
 class DepartmentsControllerTest extends IntegrationTestCase
 {
@@ -16,7 +17,12 @@ class DepartmentsControllerTest extends IntegrationTestCase
 			'Auth' => [
 				'User' => [
 					'id' => 1,
-					'username' => 'testing'
+					'name' => 'testing',
+					'email' => 'testing@test.lt',
+					'created' => new Time('2015-10-13 12:13:14'),
+					'modified' => new Time('2014-11-14 13:14:15'),
+					'modified' => new Time('2014-11-14 13:14:15'),
+					'lastLogin' => new Time('2015-10-11 10:11:12')
 				]
 			]
 		]);

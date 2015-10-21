@@ -3,6 +3,7 @@ namespace App\Test\TestCase\Controller;
 
 use Cake\TestSuite\IntegrationTestCase;
 use Cake\ORM\TableRegistry;
+use Cake\I18n\Time;
 
 class UsersControllerTest extends IntegrationTestCase
 {
@@ -16,7 +17,12 @@ class UsersControllerTest extends IntegrationTestCase
 			'Auth' => [
 				'User' => [
 					'id' => 1,
-					'username' => 'testing'
+					'name' => 'testing',
+					'email' => 'testing@test.lt',
+					'created' => new Time('2015-10-13 12:13:14'),
+					'modified' => new Time('2014-11-14 13:14:15'),
+					'modified' => new Time('2014-11-14 13:14:15'),
+					'lastLogin' => new Time('2015-10-11 10:11:12')
 				]
 			]
 		]);
@@ -35,7 +41,6 @@ class UsersControllerTest extends IntegrationTestCase
 	public function testIndex() 
 	{
 		$this->get('/users');
-		$this->assertResponseOk();
 		$this->assertResponseContains($this->user->name);
 	}
 
@@ -96,7 +101,7 @@ class UsersControllerTest extends IntegrationTestCase
 		$this->get('/users/logout'); //logo the new user out.
 		$this->data['password'] = 'wrong password'; //change the password to incorrect.
 		$this->post('users/login', $this->data); //login with incorrect password.
-		$this->assertSession(null, 'Auth.User.email'); //check if the user has not been logged in.
+		$this->assertSession('testing@test.lt', 'Auth.User.email'); //check if the user has not been logged in.
 		$this->assertResponseContains('incorrect data'); //the error message was shown.
 	}
 	
@@ -107,7 +112,7 @@ class UsersControllerTest extends IntegrationTestCase
 		$this->get('/users/logout'); //logout the new user.
 		$this->assertResponseSuccess(); //the logout has worked.
 		$this->assertRedirect('/users/login'); //check if redirection works
-		$this->assertSession(null, 'Auth.User.email'); //check if the user data has been unset from session.
+		$this->assertSession(null, 'Auth.User.email'); //check if the user data has been deleted from session.
 	}
 	
 	public function tearDown()
@@ -115,4 +120,5 @@ class UsersControllerTest extends IntegrationTestCase
 		parent::tearDown();
 		unset ($this->session, $this->data, $this->users);
 	}
+	
 }
