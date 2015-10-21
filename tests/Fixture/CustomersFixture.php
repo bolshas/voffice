@@ -17,6 +17,24 @@ class CustomersFixture extends TestFixture
 			'email' => 'info@dugaideliai.lt',
 			'corporateId' => '794655671',
 			'user_id' => 1
+		],
+		[
+			'id' => 2,
+			'name' => 'UAB Trys paršeliai',
+			'address' => 'Vilniaus g. 57, Kaunas',
+			'phoneNumber' => '+370 652 473 57',
+			'email' => 'info@trysparseliai.lt',
+			'corporateId' => '16467971',
+			'user_id' => 1
+		],
+		[
+			'id' => 3,
+			'name' => 'UAB Keturi ereliai',
+			'address' => 'Stasio g. 57, Kaunas',
+			'phoneNumber' => '+370 642 473 57',
+			'email' => 'info@keturiereliai.lt',
+			'corporateId' => '6568774',
+			'user_id' => 2
 		]
 	];
 }	

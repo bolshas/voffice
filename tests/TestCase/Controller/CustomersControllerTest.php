@@ -28,11 +28,11 @@ class CustomersControllerTest extends IntegrationTestCase
 		]);
 		
 		$this->data = [
-			'name' => 'UAB Trys Parseliai',
-			'address' => 'Donelaicio g. 45, Kaunas',
-			'phoneNumber' => '+370 630 343 56',
-			'email' => 'info@trysparseliai.lt',
-			'corporateId' => '97643468',
+			'name' => 'UAB Septyni Zuikiai',
+			'address' => 'Zenono g. 45, Kaunas',
+			'phoneNumber' => '+370 780 343 56',
+			'email' => 'info@septynizuikiai.lt',
+			'corporateId' => '7676542',
 			'user_id' => 1
 		];
 		
@@ -40,6 +40,12 @@ class CustomersControllerTest extends IntegrationTestCase
 		$this->users = TableRegistry::get('Users');
 		$this->customer = $this->customers->get(1);
 		$this->user = $this->users->get(1);
+	}
+	
+	public function tearDown()
+	{
+		parent::tearDown();
+		unset ($this->session, $this->data, $this->customers, $this->customer);
 	}
 	
 	public function testIndex() 
@@ -87,13 +93,5 @@ class CustomersControllerTest extends IntegrationTestCase
 		$this->assertInstanceOf('Cake\ORM\Entity', $customer, 'Customer data was not changed.'); //the customer has been found.
 		$this->assertEquals($customer->email, $this->data['email']);
 		$this->assertEquals($customer->name, $this->data['name']);
-	}
-	
-	
-	
-	public function tearDown()
-	{
-		parent::tearDown();
-		unset ($this->session, $this->data, $this->customers, $this->customer);
 	}
 }

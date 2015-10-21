@@ -7,7 +7,7 @@ use Cake\TestSuite\TestCase;
 
 class UsersTableTest extends TestCase
 {
-	public $fixtures  = ['app.users'];
+	public $fixtures = ['app.users'];
 	
 	public function setUp() 
 	{
@@ -18,6 +18,12 @@ class UsersTableTest extends TestCase
 			'email' => 'pranas@gmail.com',
 			'password' => 'ADAaaksdj23'
 		];
+	}
+	
+	public function tearDown()
+	{
+		parent::tearDown();
+		unset($this->Users, $this->data);
 	}
 	
 	public function testValidationAcceptsCorrectData() 
@@ -52,10 +58,5 @@ class UsersTableTest extends TestCase
 		$newUser = $this->Users->newEntity($this->data);
 		$query = $this->Users->save($newUser);
 		$this->assertNotEquals($this->data['password'], $query->password);
-	}
-	public function tearDown()
-	{
-		parent::tearDown();
-		unset($this->Users, $this->data);
 	}
 }

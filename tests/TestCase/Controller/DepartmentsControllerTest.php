@@ -67,7 +67,7 @@ class DepartmentsControllerTest extends IntegrationTestCase
 		$this->get('/departments/delete/6'); // delete the top level department.
         $this->assertEquals(1, $this->Departments->find('all')->count()); //only root should remain.
         $this->assertEquals(0, $this->DepartmentsUsers->find('all')->count()); //all relationships should be deleted as well.
-        $this->assertEquals(1, $this->Users->find('all')->count()); // user should not be deleted.
+        $this->assertEquals(2, $this->Users->find('all')->count()); // user should not be deleted.
 	}
 	
 	// public function testView() 

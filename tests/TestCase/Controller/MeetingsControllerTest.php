@@ -39,13 +39,49 @@ class MeetingsontrollerTest extends IntegrationTestCase
 			
 		];
 		
+		$this->data2 = [
+			'title' => 'Another Title',
+			'description' => 'Another description.',
+			'users' => [
+				'_ids' => [1]
+			],
+			'customers' => [
+				'_ids' => [2]
+			],
+			
+		];
+		
 		$this->customers = TableRegistry::get('Customers');
 		$this->users = TableRegistry::get('Users');
 		$this->meetings = TableRegistry::get('Meetings');
 		$this->customer = $this->customers->get(1);
 		$this->user = $this->users->get(1);
 		$this->post('/meetings/add', $this->data); //create a new meeting. Not in fixture, because this way join tables get populated.
+		$this->post('/meetings/add', $this->data2); // same as above.
 		$this->meeting = $this->meetings->get(1);
+	}
+	
+	public function tearDown()
+	{
+		parent::tearDown();
+		unset ($this->session, $this->data, $this->data2, $this->customers, $this->customer, $this->users, $this->user, $this->meetings, $this->meeting);
+	}
+	
+	public function testFind()
+	{
+		// $query = $this->users->find('metCustomers');
+		// $usersWithCustomers = $this->users->loadInto($users, ['Meetings']);
+		// pr ($usersWithCustomers);
+		$meetings = $this->meetings->find()->contain(['Users', 'Customers'])->matching('Users', function ($q) {
+			return $q->where(['Users.id' => 1]);
+		});
+		foreach ($meetings as $meeting) {
+			foreach($meeting->customers as $customer) {
+				echo "\n" . $customer->name;
+			}
+		}
+		// pr ($meetings->toArray());
+		// pr($this->meetings->find('all')->Contain(['Users', 'Customers'])->Where(['Users.name' => 1])->toArray());
 	}
 	
 	public function testIndex() 
@@ -97,11 +133,5 @@ class MeetingsontrollerTest extends IntegrationTestCase
 		
 		$query = $this->meetings->find()->where(['title' => $this->data['title']]); //try to find the meeting by email.
 		$this->assertEquals(1, $query->count());
-	}
-	
-	public function tearDown()
-	{
-		parent::tearDown();
-		unset ($this->session, $this->data, $this->customers, $this->customer, $this->users, $this->user, $this->meetings, $this->meeting);
 	}
 }

@@ -7,7 +7,7 @@ use Cake\I18n\Time;
 
 class UsersControllerTest extends IntegrationTestCase
 {
-	public $fixtures = ['app.users', 'app.departments_users'];
+	public $fixtures = ['app.users', 'app.departments_users', 'app.meetings', 'app.meetings_users'];
 	
 	public function setUp()
 	{

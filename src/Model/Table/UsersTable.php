@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -35,5 +36,11 @@ class UsersTable extends Table
 	              ->requirePresence('password', 'create')
 		          ->notEmpty('password', 'Please provide your password');
 		return $validator;
+	}
+	
+	public function findMetCustomers(Query $query, array $options) 
+	{
+		$query->where([])->contain(['Meetings']);
+		return $query;
 	}
 }
