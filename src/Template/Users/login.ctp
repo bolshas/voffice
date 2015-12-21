@@ -51,5 +51,6 @@ $this->Form->templates([
 			</div>
 		</div>
 		<?= $this->Form->end(); ?>
+		<?= $this->Html->link('Register', 'users/register'); ?>
 	</div>
 </div>

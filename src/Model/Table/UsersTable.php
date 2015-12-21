@@ -3,6 +3,7 @@ namespace App\Model\Table;
 
 use Cake\ORM\Query;
 use Cake\ORM\Table;
+use Cake\ORM\RulesChecker;
 use Cake\Validation\Validator;
 
 class UsersTable extends Table
@@ -26,6 +27,12 @@ class UsersTable extends Table
 		$this->belongsToMany('Meetings', ['joinTable' => 'meetings_users']);
 	}
 	
+	public function buildRules(RulesChecker $rules)
+	{
+		$rules->add($rules->isUnique(['email'], 'This email is already in use.'));
+		return $rules;
+	}
+	
 	public function validationDefault(Validator $validator)
 	{
 		$validator->requirePresence('name', 'create')
@@ -35,12 +42,29 @@ class UsersTable extends Table
 		          ->notEmpty('email', 'Please provide your email')
 	              ->requirePresence('password', 'create')
 		          ->notEmpty('password', 'Please provide your password');
+		          //->add($rules->isUnique(['username', 'account_id']));
 		return $validator;
 	}
-	
-	public function findMetCustomers(Query $query, array $options) 
+
+	public function findMeetings(Query $query, array $options) 
 	{
-		$query->where([])->contain(['Meetings']);
+		$query//->hydrate(false)
+			  //->select(['id', 'name'])
+			  ->where(['id' => $options['Users.id']])
+			  ->contain(['Meetings' => function($q) use ($options) {
+			  		return $q//->select(['id', 'title'])
+			  				 //->autoFields(false)
+			  				 ->contain(['Users' => function($q) use ($options) {
+			  				 	return $q;//->select(['id', 'name'])
+			  				 			 //->where(['Users.id !=' => $options['Users.id']])
+			  				 			 //->autoFields(false);
+			  				 }])
+			  				 ->contain(['Customers' => function($q) use ($options) {
+								return $q;//->select(['id', 'name'])
+										 //->autoFields(false);
+			  				 }]);
+			  }]);
+		
 		return $query;
 	}
 }

@@ -12,12 +12,16 @@ class UsersController extends AppController
 	public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow(['add']);
+        $this->Auth->allow(['register']);
     }
     
 	public function index() 
 	{
 		$this->set('users', $this->paginate($this->Users));		
+	}
+	
+	public function test() 
+	{
 	}
 	
 	public function view($id = null) 
@@ -29,9 +33,8 @@ class UsersController extends AppController
 				$this->Flash->error($ex->getMessage());
 				return $this->redirect(['action' => 'index']);
 			}
-			$test = $this->Users->find('all')->where(['id' => $user->id])->contain(['Meetings', 'Customers']);
-			$this->set('user', $user);
-			$this->set('test', $test);
+			// $this->set('user', $user);
+			$this->set('user', $this->Users->find('Meetings', ['Users.id' => $id])->first());
 		}
 	}
 	
@@ -52,6 +55,24 @@ class UsersController extends AppController
 				}
 				$this->Flash->error('Unable to update the user.');
 			}
+		}
+	}
+	
+	public function register()
+	{
+		$this->set('errors', []);
+		$this->viewBuilder()->layout('login');
+		if ($this->request->is('post')) {
+			$newUser = $this->Users->newEntity($this->request->data);
+			
+			if ($this->Users->save($newUser)) {
+				$this->Flash->success('User saved.');
+				return $this->redirect(['action' => 'login']);
+			}
+			if ($newUser->errors()) { //model validation errors have occured.
+				$this->set('errors', $newUser->errors());
+			} 
+			// $this->Flash->error('An error has occured while saving the user.');
 		}
 	}
 	

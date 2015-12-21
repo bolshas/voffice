@@ -1,3 +1,14 @@
+<?php ob_start(); ?>
+<div class="user-block">
+	<img class="img-circle img-bordered-sm" src="https://avatars3.githubusercontent.com/u/796840?v=3&s=140">
+	<span class="username">Andrius</span>
+</div>
+<?php $content = ob_get_clean(); ?>
+
+
+<div class="row">
+	<div class="col-md-6"><?= $this->Front->box(['title' => 'Most active employees', 'content' => $content]); ?></div>
+</div>
 <div class="row">
 	<div class="col-xs-12">
 		<div class="box">

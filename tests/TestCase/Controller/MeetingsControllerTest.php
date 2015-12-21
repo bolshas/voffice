@@ -31,10 +31,10 @@ class MeetingsontrollerTest extends IntegrationTestCase
 			'title' => 'New Title',
 			'description' => 'New description.',
 			'users' => [
-				'_ids' => [1]
+				'_ids' => [1, 2]
 			],
 			'customers' => [
-				'_ids' => [1]
+				'_ids' => [1, 3]
 			],
 			
 		];
@@ -43,7 +43,7 @@ class MeetingsontrollerTest extends IntegrationTestCase
 			'title' => 'Another Title',
 			'description' => 'Another description.',
 			'users' => [
-				'_ids' => [1]
+				'_ids' => [2]
 			],
 			'customers' => [
 				'_ids' => [2]
@@ -67,21 +67,10 @@ class MeetingsontrollerTest extends IntegrationTestCase
 		unset ($this->session, $this->data, $this->data2, $this->customers, $this->customer, $this->users, $this->user, $this->meetings, $this->meeting);
 	}
 	
-	public function testFind()
+	public function testFindMeetings()
 	{
-		// $query = $this->users->find('metCustomers');
-		// $usersWithCustomers = $this->users->loadInto($users, ['Meetings']);
-		// pr ($usersWithCustomers);
-		$meetings = $this->meetings->find()->contain(['Users', 'Customers'])->matching('Users', function ($q) {
-			return $q->where(['Users.id' => 1]);
-		});
-		foreach ($meetings as $meeting) {
-			foreach($meeting->customers as $customer) {
-				echo "\n" . $customer->name;
-			}
-		}
-		// pr ($meetings->toArray());
-		// pr($this->meetings->find('all')->Contain(['Users', 'Customers'])->Where(['Users.name' => 1])->toArray());
+		$users = $this->users->find('Meetings', ['Users.id' => 2]);
+		debug($users->toArray());
 	}
 	
 	public function testIndex() 
