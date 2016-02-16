@@ -69,8 +69,11 @@ class UsersTable extends Table
 		return $query;
 	}
 	
-	public function findMeetingsThisMonth(Query $query, array $options)
+	public function findMeetingsThisMonth(Query $query, $options = [])
 	{
+		$defaultOptions = ['results' => 5];
+		$options = array_merge($defaultOptions, $options); // override defaultoptions
+		
 		$dateFrom = new DateTime('first day of this month');
 		$query
 		      ->hydrate(false)
@@ -78,7 +81,9 @@ class UsersTable extends Table
 		      ->matching('Meetings')
 		      ->where(['Meetings.date >=' => $dateFrom->format('Y-m-d')])
 		      ->group(['Users.name'])
-		      ->orderDesc('totalMeetings');
+		      ->orderDesc('totalMeetings')
+		      ->limit($options['results']);
+	
 		return $query;
 	}
 }

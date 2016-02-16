@@ -17,13 +17,11 @@ class UsersController extends AppController
     
 	public function index() 
 	{
+		$this->set('topMeetings', $this->Users->find('MeetingsThisMonth')->all());
 		$this->set('users', $this->paginate($this->Users));		
 	}
 	
-	public function test() {
-		$query = $this->Users->find('MeetingsThisMonth');
-		$this->set('debug', $query->all());
-	}
+	public function test() {}
 	
 	public function view($id = null) 
 	{

@@ -69,6 +69,8 @@ class FrontHelper extends Helper
 				</div>
 			</div>
 		</div>
-		<? return ob_get_clean();
+		<?php return ob_get_clean();
+		
+		
 	}
 }

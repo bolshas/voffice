@@ -5,21 +5,13 @@ echo $this->Html->scriptBlock('$(".inlinesparkline").sparkline("html", {type: "b
 ob_start(); ?>
 <table class="table table-condensed table-hover table-user-list">
 	<tbody>
+		<?php foreach($topMeetings as $meeting): ?>
 		<tr>
 			<td><img class="img-circle" src="http://lorempixel.com/128/128/people/1"></td>
-			<td width="100%">Andrius Bolsaitis</td>
-			<td><span class="badge bg-red pull-right">43</span></td>
+			<td width="100%"><?= $meeting['name'] ?></td>
+			<td><span class="badge bg-red pull-right"><?= $meeting['totalMeetings'] ?></span></td>
 		</tr>
-		<tr>
-			<td><img class="img-circle" src="http://lorempixel.com/128/128/people/1"></td>
-			<td>Andrius Bolsaitis</td>
-			<td><span class="badge bg-red pull-right">43</span></td>
-		</tr>
-		<tr>
-			<td><img class="img-circle" src="http://lorempixel.com/128/128/people/1"></td>
-			<td>Andrius Bolsaitis</td>
-			<td><span class="badge bg-red pull-right">43</span></td>
-		</tr>
+		<?php endforeach; ?>
 	</tbody>
 </table>
 

@@ -18,7 +18,7 @@ class FakeMeetings extends AbstractMigration
 		
 		$populator = new \Faker\ORM\CakePHP\Populator($faker);
 		$populator->addEntity('Meetings', 50, [
-			'date' => function() use ($faker) { return $faker->dateTimeThisYear(); },
+			'date' => function() use ($faker) { return $faker->dateTimeThisMonth(); },
 			'created' => null,
 			'modified' => null
 		]);
