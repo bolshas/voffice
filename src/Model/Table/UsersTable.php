@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use \DateTime;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\RulesChecker;
@@ -45,7 +46,7 @@ class UsersTable extends Table
 		          //->add($rules->isUnique(['username', 'account_id']));
 		return $validator;
 	}
-
+	
 	public function findMeetings(Query $query, array $options) 
 	{
 		$query//->hydrate(false)
@@ -65,6 +66,19 @@ class UsersTable extends Table
 			  				 }]);
 			  }]);
 		
+		return $query;
+	}
+	
+	public function findMeetingsThisMonth(Query $query, array $options)
+	{
+		$dateFrom = new DateTime('first day of this month');
+		$query
+		      ->hydrate(false)
+		      ->select(['Users.name', 'totalMeetings' => $query->func()->count('Meetings.id')])
+		      ->matching('Meetings')
+		      ->where(['Meetings.date >=' => $dateFrom->format('Y-m-d')])
+		      ->group(['Users.name'])
+		      ->orderDesc('totalMeetings');
 		return $query;
 	}
 }

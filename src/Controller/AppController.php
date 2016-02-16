@@ -11,7 +11,7 @@ class AppController extends Controller
     {
 		$str = 'lessc -s --no-color less/main.less --clean-css="--s0" css/main.css 2>&1';
 		$exec = null;
-		$exec = shell_exec($str); //uncomment to update LESS files
+		// $exec = shell_exec($str); //uncomment to update LESS files
 		if ($exec) {
 			$this->autoRender = false;
 			echo '<pre>' . $exec . '</pre>'; // print error message to screen.

@@ -1,22 +1,23 @@
 <?php
 echo $this->Html->script('/js/plugins/jquery.sparkline.min.js', ['block' => true]);
 echo $this->Html->scriptBlock('$(".inlinesparkline").sparkline("html", {type: "bar", barColor: "#357ca5", height: "30px", barWidth: "5px"});', ['block' => true]);
+
 ob_start(); ?>
-<table class="table table-condensed table-user-list">
+<table class="table table-condensed table-hover table-user-list">
 	<tbody>
 		<tr>
-			<td style="vertical-align: middle;"><img class="img-circle" style="max-width: 150px" src="http://lorempixel.com/128/128/people/1"></td>
-			<td style="vertical-align: middle;" width="100%" ><b>Andrius Bolsaitis</b></td>
-			<td style="vertical-align: middle;"><span class="badge bg-red pull-right">43</span></td>
-		</tr>
-		<tr>
-			<td><img class="img-circle" style="max-width: 45px" src="http://lorempixel.com/128/128/people/1"></td>
-			<td><b>Andrius Bolsaitis</b></td>
+			<td><img class="img-circle" src="http://lorempixel.com/128/128/people/1"></td>
+			<td width="100%">Andrius Bolsaitis</td>
 			<td><span class="badge bg-red pull-right">43</span></td>
 		</tr>
 		<tr>
-			<td><img class="img-circle" style="max-width: 45px" src="http://lorempixel.com/128/128/people/1"></td>
-			<td><b>Andrius Bolsaitis</b></td>
+			<td><img class="img-circle" src="http://lorempixel.com/128/128/people/1"></td>
+			<td>Andrius Bolsaitis</td>
+			<td><span class="badge bg-red pull-right">43</span></td>
+		</tr>
+		<tr>
+			<td><img class="img-circle" src="http://lorempixel.com/128/128/people/1"></td>
+			<td>Andrius Bolsaitis</td>
 			<td><span class="badge bg-red pull-right">43</span></td>
 		</tr>
 	</tbody>

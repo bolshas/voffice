@@ -20,7 +20,10 @@ class UsersController extends AppController
 		$this->set('users', $this->paginate($this->Users));		
 	}
 	
-	public function test() {}
+	public function test() {
+		$query = $this->Users->find('MeetingsThisMonth');
+		$this->set('debug', $query->all());
+	}
 	
 	public function view($id = null) 
 	{
@@ -31,7 +34,6 @@ class UsersController extends AppController
 				$this->Flash->error($ex->getMessage());
 				return $this->redirect(['action' => 'index']);
 			}
-			// $this->set('user', $user);
 			$this->set('user', $this->Users->find('Meetings', ['Users.id' => $id])->first());
 		}
 	}

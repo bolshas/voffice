@@ -15,6 +15,7 @@ class CreateMeetings extends AbstractMigration
         $table = $this->table('meetings');
         $table->addColumn('title',       'string',   ['default' => null, 'limit' => 255, 'null' => true])
               ->addColumn('description', 'text',     ['default' => null, 'null' => true])
+              ->addColumn('date',        'datetime', ['default' => null, 'null' => true])
               ->addColumn('created',     'datetime', ['default' => null, 'null' => false])
               ->addColumn('modified',    'datetime', ['default' => null, 'null' => false])
               ->create();
