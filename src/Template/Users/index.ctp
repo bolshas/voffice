@@ -1,14 +1,34 @@
-<?php ob_start(); ?>
-<div class="user-block">
-	<img class="img-circle img-bordered-sm" src="https://avatars3.githubusercontent.com/u/796840?v=3&s=140">
-	<span class="username">Andrius</span>
-</div>
+<?php
+echo $this->Html->script('/js/plugins/jquery.sparkline.min.js', ['block' => true]);
+echo $this->Html->scriptBlock('$(".inlinesparkline").sparkline("html", {type: "bar", barColor: "#357ca5", height: "30px", barWidth: "5px"});', ['block' => true]);
+ob_start(); ?>
+<table class="table table-condensed table-user-list">
+	<tbody>
+		<tr>
+			<td style="vertical-align: middle;"><img class="img-circle" style="max-width: 150px" src="http://lorempixel.com/128/128/people/1"></td>
+			<td style="vertical-align: middle;" width="100%" ><b>Andrius Bolsaitis</b></td>
+			<td style="vertical-align: middle;"><span class="badge bg-red pull-right">43</span></td>
+		</tr>
+		<tr>
+			<td><img class="img-circle" style="max-width: 45px" src="http://lorempixel.com/128/128/people/1"></td>
+			<td><b>Andrius Bolsaitis</b></td>
+			<td><span class="badge bg-red pull-right">43</span></td>
+		</tr>
+		<tr>
+			<td><img class="img-circle" style="max-width: 45px" src="http://lorempixel.com/128/128/people/1"></td>
+			<td><b>Andrius Bolsaitis</b></td>
+			<td><span class="badge bg-red pull-right">43</span></td>
+		</tr>
+	</tbody>
+</table>
+
 <?php $content = ob_get_clean(); ?>
 
 
 <div class="row">
-	<div class="col-md-6"><?= $this->Front->box(['title' => 'Most active employees', 'content' => $content]); ?></div>
+	<div class="col-md-4"><?= $this->Front->box(['padding' => false, 'title' => 'Meetings this month', 'content' => $content]); ?></div>
 </div>
+
 <div class="row">
 	<div class="col-xs-12">
 		<div class="box">

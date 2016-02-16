@@ -29,17 +29,19 @@ class FrontHelper extends Helper
 	
 	public function box(array $options = [])
 	{
-		$defaultOptions = ['color' => 'primary', 'collapse' => false, 'remove' => false,  'title' => '', 'content' => '', 'footer' => '', 'footerClass' => ''];
+		$defaultOptions = ['color' => 'primary', 'padding' => true, 'collapse' => false, 'remove' => false,  'title' => '', 'content' => '', 'footer' => '', 'footerClass' => ''];
 		$options = array_merge($defaultOptions, $options); // override defaultoptions
 		
 		$color = $options['color'];
+		$padding = $options['padding'] ? '' : ' no-padding';
+		$headerBorder = $options['padding'] ? ' with-border' : '';
 
 		$collapse = $options['collapse'] ? '<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>' : '';
 		$remove = $options['remove'] ? '<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>' : '';
 		$tools = $collapse || $remove ? '<div class="box-tools pull-right">' . $collapse . $remove . '</div>' : '';
 		
-		$header = $options['title'] ? '<div class="box-header with-border"><h3 class="box-title">' . $options['title'] . '</h3>' . $tools . '</div>' : '';
-		$content = '<div class="box-body">' . $options['content'] . '</div>';
+		$header = $options['title'] ? '<div class="box-header' . $headerBorder . '"><h3 class="box-title">' . $options['title'] . '</h3>' . $tools . '</div>' : '';
+		$content = '<div class="box-body' . $padding . '">' . $options['content'] . '</div>';
 		$footer = $options['footer'] ? '<div class="box-footer ' . $options['footerClass'] . '">' . $options['footer'] . '</div>' : '';
 		
 		return '<div class="box box-' . $color .'">' . $header . $content . $footer . '</div>';

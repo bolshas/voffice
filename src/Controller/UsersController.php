@@ -20,9 +20,7 @@ class UsersController extends AppController
 		$this->set('users', $this->paginate($this->Users));		
 	}
 	
-	public function test() 
-	{
-	}
+	public function test() {}
 	
 	public function view($id = null) 
 	{

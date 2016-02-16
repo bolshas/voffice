@@ -4,12 +4,16 @@
 		<?php 
 		echo $this->fetch('css');
 		echo $this->Html->css([
-			'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css',       // Bootstrap
+			'main',
+			// 'bootstrap',
+			// 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css',       // Bootstrap
 			'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css', // Font Awesome
 			'https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css',         // Ionicons
-			'AdminLTE.min',                                                                // AdminLTE main
+			// 'AdminLTE.min',                                                                // AdminLTE main
+			// 'AdminLTE',
 			'skins/_all-skins.min'                                                          // AdminLTE skin (add to body class)
-		]); 
+		]);
+		
 		?>
 		
 		<?= $this->Html->charset() ?>
